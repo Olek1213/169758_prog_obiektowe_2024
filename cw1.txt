@@ -1,0 +1,74 @@
+public class Main {
+    public static void main(String[] args) {
+        // zad 1
+        System.out.println("Aleksander Luty");
+        // zad 2
+        System.out.println("Aleksander".length());
+        System.out.println("Luty".length());
+        // zad 3
+        String napis1 = "Ala";
+        String napis2 = "ma";
+        String napis3 = "kota";
+        String napis4 = napis1 + " " + napis2 + " " + napis3;
+        System.out.println(napis4);
+        // zad 4
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*\t*");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*\t*\t*");
+        System.out.println("*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*");
+        System.out.println("*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*");
+        System.out.println("*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*\t*");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*\t*\t*");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*\t*");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t*\n");
+        System.out.println("     *");
+        System.out.println("    * *");
+        System.out.println("   * * *");
+        System.out.println("  * * * *");
+        System.out.println(" * * * * *");
+        System.out.println("* * * * * *");
+        System.out.println(" * * * * *");
+        System.out.println("  * * * *");
+        System.out.println("   * * *");
+        System.out.println("    * *");
+        System.out.println("     *");
+        // zad 5
+        String napis5 = napis4.replaceAll("a","e");
+        System.out.println(napis5);
+        // zad 6
+        StringBuffer napis6 = new StringBuffer(napis4.length());
+        char c = 0;
+        for (int i = 0; i < napis4.length(); i++) {
+             c = napis4.charAt(i);
+            if (Character.isLowerCase(c))
+                c = Character.toUpperCase(c);
+            else
+                c = Character.toLowerCase(c);
+            napis6.append(c);
+        }
+        System.out.println(napis6);
+        // zad 7
+        System.out.println((int)'A');
+        System.out.println((int)'!');
+        System.out.println((int)'@');
+        System.out.println((int)'>');
+        System.out.println((int)'~');
+        System.out.println((int)'\n');
+        System.out.println((int)'\b');
+        // zad 8
+        // Cyfry znajduja sie w przedziale od 48 do 57, male litery od 97 do 122, a duze litery od 65 do 90
+        // zad 9
+        String napis7 = "Grzesiek nie wiedzial dlaczego lew jest tak drapieznym zwierzeciem mimo, ze jego wyglad na to nie wskazuje.";
+        // zad 10
+        String napis8 = "\"Lalka\" to najlepsza ksiazka napisana przez Boleslawa Prusa";
+        // zad 11
+        for(int i=0;i<5;i++) {
+            System.out.print("wodrze");
+        }
+        // zad 12 
+        System.out.println
+            
+            
+        
+    }
+}
