@@ -1,0 +1,54 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        // zad 1
+        System.out.println(23.0 + 76); // double
+        System.out.println(41*2.0 + 3); // double
+        System.out.println(5-33); // int
+        System.out.println(109%3); // int
+        System.out.println(50/2); // int
+        System.out.println(4|2); // int
+        System.out.println(3^5); // int
+        System.out.println(7&9); // int
+        System.out.println();
+        // zad 2
+        System.out.println((int)((Math.sqrt(7)-1)/2+(Math.pow(3, 3))%2));
+        System.out.println((int)(2003/(16*8)));
+        System.out.println((int)((3+Math.sqrt(3))/(Math.sqrt(5)/6)+1));
+        System.out.println((int)20%7%4);
+        System.out.println((int)((4%10 + 1)/Math.sqrt(Math.sqrt(2))));
+        System.out.println();
+        // zad 3
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj dwa wyrazy: ");
+        String wyraz1 = scanner.nextLine();
+        String wyraz2 = scanner.nextLine();
+        System.out.println(wyraz1 + " " + wyraz2);
+        System.out.println();
+        // zad 4
+        System.out.println("Podaj dwie liczby: ");
+        double liczba1 = scanner.nextDouble();
+        double liczba2 = scanner.nextDouble();
+        System.out.println(liczba1 + liczba2);
+        System.out.println(liczba1 - liczba2);
+        System.out.println(liczba1 * liczba2);
+        System.out.println(liczba1 / liczba2);
+        System.out.println();
+        // zad 5
+        System.out.println("Podaj liczbe: ");
+        int liczba3 = scanner.nextInt();
+        System.out.println(liczba3 + 140);
+        System.out.println(liczba3 - 31);
+        System.out.println(liczba3 * 7);
+        System.out.println(liczba3 / 13);
+        System.out.println(liczba3 % 7);
+        System.out.println((int)(liczba3 / 4));
+        System.out.println(Math.pow(liczba3, 45));
+        System.out.println(liczba3 | 67);
+        System.out.println(liczba3 ^ 23);
+        System.out.println(liczba3<<5);
+        System.out.println(liczba3>>6);
+
+
+    }
+}
