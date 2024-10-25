@@ -1,0 +1,125 @@
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> tab1 = new ArrayList<Integer>();
+        ArrayList<Integer> tab2 = new ArrayList<Integer>();
+        tab1.add(3);
+        tab1.add(1);
+        tab2.add(2);
+        tab2.add(4);
+        System.out.println(checkChar(toArrayList("nic"), 'n'));
+        System.out.println(countChar(toArrayList("nininic"),'n'));
+        System.out.println(toArrayList("nic"));
+        System.out.println(toArrayList(1984));
+        System.out.println(mergeSorted(tab1,tab2));
+    }
+    public static ArrayList<Integer> append(ArrayList<Integer> tab1, ArrayList<Integer> tab2) {
+        ArrayList<Integer> tab3 = new ArrayList<Integer>();
+        for(int i=0;i<tab1.size();i++) {
+            tab3.add(tab1.get(i));
+        }
+        for(int i=0;i<tab2.size();i++) {
+            tab3.add(tab2.get(i));
+        }
+        return tab3;
+    }
+    public static ArrayList<Integer> merge(ArrayList<Integer> tab1, ArrayList<Integer> tab2) {
+        ArrayList<Integer> tab3 = new ArrayList<Integer>();
+        int i=0;
+        for (i = 0; i < tab1.size() && i < tab2.size(); i++) {
+            tab3.add(tab1.get(i));
+            tab3.add(tab2.get(i));
+        }
+        if(i<tab1.size()) {
+            for(int j=i;j<tab1.size();j++) {
+                tab3.add(tab1.get(j));
+            }
+        }
+        else if (i<tab2.size()) {
+            for(int j=i;j<tab2.size();j++) {
+                tab3.add(tab2.get(j));
+            }
+        }
+        return tab3;
+    }
+    public static ArrayList<Integer> mergeSorted(ArrayList<Integer> tab1, ArrayList<Integer> tab2) {
+        ArrayList<Integer> tab3 = new ArrayList<Integer>();
+        ArrayList<Integer> tab4 = new ArrayList<Integer>();
+        tab3 = append(tab1, tab2);
+        int x = tab3.size();
+        for(int j=0;j<x;j++) {
+            int min = tab3.get(0);
+            int ind = 0;
+            for(int i=0;i<tab3.size();i++) {
+                if(tab3.get(i)<=min) {
+                    min = tab3.get(i);
+                    ind = i;
+                }
+            }
+            tab4.add(min);
+            tab3.remove(ind);
+        }
+        return tab4;
+    }
+    public static ArrayList<Character> toArrayList(String napis) {
+        ArrayList<Integer> tab = new ArrayList<Integer>();
+        for(int i=0;i<napis.length();i++) {
+            tab.add((int)napis.charAt(i));
+        }
+        ArrayList<Integer> pusta = new ArrayList<Integer>();
+        pusta = mergeSorted(tab, pusta);
+        ArrayList<Character> tab2 = new ArrayList<Character>();
+        for(int i=0;i<pusta.size();i++) {
+            tab2.add((char)(pusta.get(i)+'0'-'0'));
+        }
+        return tab2;
+    }
+    public static ArrayList<Integer> toArrayList(int liczba) {
+        ArrayList<Integer> cyfry = new ArrayList<Integer>();
+        while(liczba>0) {
+            cyfry.add(liczba % 10);
+            liczba /= 10;
+        }
+        ArrayList<Integer> posortowane = new ArrayList<Integer>();
+        posortowane = mergeSorted(cyfry,posortowane);
+        return posortowane;
+    }
+    public static boolean checkChar(ArrayList<Character> tab, char znak) {
+        for(int i=0;i<tab.size();i++) {
+            if(tab.get(i)==znak) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean checkDigit(ArrayList<Integer> tab, int cyfra) {
+        for(int i=0;i<tab.size();i++) {
+            if(tab.get(i)==cyfra) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static int countChar(ArrayList<Character> tab, char znak) {
+        int ilosc = 0;
+        for(int i=0;i<tab.size();i++) {
+            if(tab.get(i)==znak) {
+                ilosc++;
+            }
+        }
+        return ilosc;
+    }
+    public static int countDigit(ArrayList<Integer> tab, int cyfra) {
+        int ilosc = 0;
+        for(int i=0;i<tab.size();i++) {
+            if(tab.get(i)==cyfra) {
+                ilosc++;
+            }
+        }
+        return ilosc;
+    }
+    public static ArrayList<ArrayList<Integer>> uniqueArrayList(ArrayList<Character> tab) {
+        
+    }
+}
