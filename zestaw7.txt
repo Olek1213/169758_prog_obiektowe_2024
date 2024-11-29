@@ -1,0 +1,294 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class Main {
+    public static void main(String[] args) {
+        Produkt pomidor = new Produkt("Pomidor",4,100);
+        System.out.println(pomidor.toString());
+        System.out.println();
+        pomidor.dodajDoMagazynu(50);
+        System.out.println(pomidor.toString());
+        pomidor.usunZMagazynu(200);
+        System.out.println();
+        Produkt ziemniak = new Produkt("Ziemniak",3,200);
+        KoszykZakupowy lista_zakupowa = new KoszykZakupowy(3, pomidor, ziemniak, pomidor);
+        System.out.println(lista_zakupowa.toString());
+        System.out.println();
+        System.out.println("Wartosc koszyka: " + lista_zakupowa.obliczCalkowitaWartosc());
+        System.out.println();
+        Zamowienie zamowienie = new Zamowienie(lista_zakupowa,"W trakcie");
+        zamowienie.ustawStatusZamowienia("Wykonane");
+        System.out.println(zamowienie.toString());
+        System.out.println();
+        Adres adres = new Adres("Sloneczna",2,1,"Olsztyn","10-123");
+        Klient klient1 = new Klient("Janusz","Nowak",adres);
+        klient1.dodajZamowienie(zamowienie);
+        System.out.println(klient1.toString());
+        System.out.println();
+        System.out.println("Laczny koszt zamowien: " + klient1.obliczLacznyKoszZamowien());
+        System.out.println();
+        Magazyn magazyn = new Magazyn(pomidor, ziemniak);
+        System.out.println(magazyn.toString());
+        System.out.println();
+    }
+}
+
+class Produkt {
+    String nazwa;
+    double cena;
+    int iloscNaMagazynie;
+    public Produkt(String nazwa, double cena, int iloscNaMagazynie) {
+        this.nazwa = nazwa;
+        this.cena = cena;
+        this.iloscNaMagazynie = iloscNaMagazynie;
+    }
+    @Override
+    public String toString() {
+        String napis = "";
+        napis += "Nazwa: " + this.nazwa;
+        napis += "Cena: " + this.cena;
+        napis += "Ilosc na magazynie: " + this.iloscNaMagazynie;
+        return napis;
+    }
+    public void dodajDoMagazynu(int liczba) {
+        this.iloscNaMagazynie+=liczba;
+    }
+    public void usunZMagazynu(int liczba) {
+        if(this.iloscNaMagazynie>=liczba) {
+            this.iloscNaMagazynie-=liczba;
+        }
+        else {
+            System.out.println("Nie ma wystarczajaco duzo towaru!");
+        }
+    }
+    @Override
+    public int hashCode() {
+        
+    }
+}
+
+class KoszykZakupowy {
+    ArrayList<Produkt> produkty = new ArrayList<Produkt>();
+    int ilosc;
+    public KoszykZakupowy(int ilosc, Produkt... args) {
+        this.ilosc = ilosc;
+        for(int i=0;i<args.length;i++){
+            produkty.add(args[i]);
+        }
+    }
+    public void dodajProdukt(Produkt produkt, int ilosc) {
+        if(ilosc <= produkt.iloscNaMagazynie) {
+            produkty.add(produkt);
+            produkt.iloscNaMagazynie-=ilosc;
+        }
+        else {
+            System.out.println("Nie ma tyle produktu na magazynie!");
+        }
+    }
+    @Override
+    public String toString() {
+        ArrayList<Produkt> unikalne_produkty = new ArrayList<Produkt>();
+        String napis = "";
+        for(int i=0;i<produkty.size();i++) {
+            if(unikalne_produkty.contains(produkty.get(i))) {
+            }
+            else {
+                unikalne_produkty.add(produkty.get(i));
+            }
+        }
+        for(int i=0;i<unikalne_produkty.size();i++) {
+            int ilosc = 0;
+            for(int j=0;j<produkty.size();j++) {
+                if(unikalne_produkty.get(i)==produkty.get(j)) {
+                    ilosc++;
+                }
+            }
+            napis += unikalne_produkty.get(i).nazwa + ", ";
+            napis += " | Ilosc: " + Integer.toString(ilosc);
+        }
+        return napis;
+    }
+    public double obliczCalkowitaWartosc() {
+        double suma = 0;
+        for(int i=0;i<produkty.size();i++) {
+            suma += produkty.get(i).cena;
+        }
+        return suma;
+    }
+}
+
+class Zamowienie {
+    KoszykZakupowy koszykZakupowy;
+    String statusZamowienia;
+    Platnosc platnosc;
+    public Zamowienie(KoszykZakupowy koszykZakupowy, String statusZamowienia) {
+        this.koszykZakupowy = koszykZakupowy;
+        this.statusZamowienia = statusZamowienia;
+    }
+    public void ustawStatusZamowienia(String nowy_status) {
+        this.statusZamowienia = nowy_status;
+    }
+    @Override
+    public String toString() {
+        String napis = "Zamowienie: \n";
+        napis += koszykZakupowy.toString() + "\n";
+        napis += this.statusZamowienia;
+        return napis;
+    }
+    public void finalizujZamowienie() {
+        if(this.platnosc.statusPlatnosci == "Oplacone") {
+            this.statusZamowienia = "Gotowe do wysylki";
+        }
+    }
+}
+
+class Klient {
+    String imie;
+    String nazwisko;
+    ArrayList<Zamowienie> listaZamowien = new ArrayList<Zamowienie>();
+    Adres adres;
+    public Klient(String imie, String nazwisko, Adres adres, Zamowienie... args) {
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.adres = adres;
+        for(int i=0;i<args.length;i++) {
+            listaZamowien.add(args[i]);
+        }
+    }
+    public void dodajZamowienie(Zamowienie zamowienie) {
+        listaZamowien.add(zamowienie);
+    }
+    @Override
+    public String toString() {
+        String napis = "Historia zamowien: ";
+        for(int i=0;i<listaZamowien.size();i++) {
+            napis += listaZamowien.get(i).toString();
+        }
+        return napis;
+    }
+    public double obliczLacznyKoszZamowien() {
+        double suma = 0;
+        for(int i=0;i<listaZamowien.size();i++) {
+            suma += listaZamowien.get(i).koszykZakupowy.obliczCalkowitaWartosc();
+        }
+        return suma;
+    }
+}
+
+class Sklep {
+    ArrayList<Produkt> produkty = new ArrayList<Produkt>();
+    String nazwaSklepu;
+    Calendar dataPowstania;
+    Magazyn magazynSklepu;
+    public Sklep(String nazwaSklepu, Calendar dataPowstania, Magazyn magazyn, Produkt... args) {
+        this.nazwaSklepu = nazwaSklepu;
+        if(dataPowstania.YEAR > 2024) {
+            throw new RuntimeException();
+        }
+        this.dataPowstania = dataPowstania;
+        this.magazynSklepu = magazyn;
+        for(int i=0;i<args.length;i++) {
+            produkty.add(args[i]);
+        }
+    }
+    public void dodajProdukt(Produkt... args) {
+        for(int i=0;i<args.length;i++) {
+            produkty.add(args[i]);
+        }
+    }
+    @Override
+    public String toString() {
+        String napis = "";
+        for(int i=0;i<produkty.size();i++) {
+            napis += produkty.get(i).toString();
+        }
+        return napis;
+    }
+    public Produkt wyszukajProduktu(String nazwa) {
+        for(int i=0;i<produkty.size();i++) {
+            if(produkty.get(i).nazwa.equals(nazwa)) {
+                return produkty.get(i);
+            }
+        }
+        System.out.println("Nie znaleziono produktu.");
+        return new Produkt("",0,0);
+    }
+    public void zakupy(KoszykZakupowy koszyk, Produkt produkt, int ilosc) {
+        for(int i=0;i<ilosc;i++) {
+            koszyk.dodajProdukt(produkt,1);
+        }
+    }
+}
+
+class Platnosc {
+    double kwota;
+    String statusPlatnosci;
+    public Platnosc(double kwota, String statusPlatnosci) {
+        this.kwota = kwota;
+        this.statusPlatnosci = statusPlatnosci;
+    }
+    public void zaplac(int kwota) {
+        this.statusPlatnosci = "Oplacone";
+        this.kwota = kwota;
+    }
+}
+
+class Magazyn {
+    ArrayList<Produkt> produkty = new ArrayList<Produkt>();
+    int ilosc;
+    public Magazyn(Produkt... args) {
+        int suma=0;
+        for(int i=0;i<args.length;i++) {
+            produkty.add(args[i]);
+            suma+=args[i].iloscNaMagazynie;
+        }
+        this.ilosc = suma;
+    }
+    @Override
+    public String toString() {
+        String napis = "";
+        napis += "Ilosc produktow: " + this.ilosc + "\n";
+        napis += "Produkty:" + "\n";
+        for(int i=0;i<produkty.size();i++) {
+            napis += produkty.get(i).toString();
+        }
+        return napis;
+    }
+}
+
+class Adres {
+    String ulica;
+    int numerDomu;
+    int numerMieszkania;
+    String miasto;
+    String kodPocztowy;
+    public Adres(String ulica, int numerDomu, int numerMieszkania, String miasto, String kodPocztowy) {
+        this.ulica = ulica;
+        this.numerDomu = numerDomu;
+        this.numerMieszkania = numerMieszkania;
+        this.miasto = miasto;
+        this.kodPocztowy = kodPocztowy;
+    }
+    public Adres(String ulica, int numerDomu, String miasto, String kodPocztowy) {
+        this.ulica = ulica;
+        this.numerDomu = numerDomu;
+        this.miasto = miasto;
+        this.kodPocztowy = kodPocztowy;
+    }
+    @Override
+    public String toString() {
+        String napis = this.kodPocztowy + " " + this.miasto + "\n";
+        napis += this.ulica + " " + this. numerDomu + " " + this.numerMieszkania;
+        return napis;
+    }
+    public boolean przed(Adres adres2) {
+        int first = Integer.parseInt(this.kodPocztowy.substring(0,2)) * 1000 + Integer.parseInt(this.kodPocztowy.substring(3));
+        int second = Integer.parseInt(adres2.kodPocztowy.substring(0,2)) * 1000 + Integer.parseInt(adres2.kodPocztowy.substring(3));
+        if(first<second) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
